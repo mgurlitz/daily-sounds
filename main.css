@@ -62,3 +62,15 @@ a:hover {
   color: #ccc;
 }
 
+#player {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: white;
+}
+
+#push-player-down {
+  height: 164px;
+  display: none;
+}
+

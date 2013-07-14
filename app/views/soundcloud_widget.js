@@ -16,6 +16,7 @@ App.Views.SoundCloudWidgetView = Backbone.View.extend({
   render: function() {
     this.$el.html( this.template( this.model.toJSON() ) );
     this._widget = SC.Widget( $("iframe", this.$el)[0] );
+    $("#push-player-down").show();
   },
 
   load: function() { 
