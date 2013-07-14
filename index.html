@@ -30,7 +30,9 @@
           <a href="?<%= days_ago - 1 %>" class="icon-angle-left"></a>
         <% } %>
         <%= moment().subtract("days", days_ago).format("MMMM D") %>
-        <a href="?<%= days_ago + 1 %>" class="icon-angle-right"></a>
+        <% if(days_ago < App.max_days_ago) { %>
+          <a href="?<%= days_ago + 1 %>" class="icon-angle-right"></a>
+        <% } %>
       </span>
       <% if(_.isEmpty(artists)) { %>
         No tracks to show!

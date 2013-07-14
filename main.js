@@ -1,5 +1,12 @@
 (function(App) {
 
+// The method to get old dashboard data requires retrieving all newer
+// dashboard entries first. This would be fixed if the /me/activities
+// endpoint allowed a "created_at" parameter, which I believe it does
+// not. Therefore protect against users going too far back in their
+// history and potentially hammering SoundCloud's servers.
+App.max_days_ago = 4;
+
 function soundcloud_init(next) {
   SC.initialize({
     client_id: "",
@@ -31,8 +38,8 @@ soundcloud_init(function() {
     var days_ago = parseInt(location.search.substring(1));
     if(isNaN(days_ago) || days_ago < 0)
       days_ago = 0;
-    if(days_ago > 4)
-      days_ago = 4;
+    if(days_ago > App.max_days_ago)
+      days_ago = App.max_days_ago;
 
     App.current_user.my_activities_on(days_ago, function(tracks) {
       var tracks_by_author = _.groupBy(tracks, function(i) { return i.get("user")["id"] });

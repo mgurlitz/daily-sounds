@@ -74,7 +74,7 @@ a:hover {
 }
 
 #push-player-down {
-  height: 164px;
+  height: 164px; /* 164px is the size of the SoundCloud player */
   display: none;
 }
 
