@@ -1,0 +1,55 @@
+a:link, a:visited {
+  color: #333;
+}
+
+a:hover {
+  text-decoration: none;
+  color: #0645ad;
+}
+
+#app {
+  margin-top: 32pt;
+}
+
+.date-header, .date-header a:link, .date-header a:visited { 
+  color: #ccc;
+  font-size: 14pt;
+  font-weight: bold;
+}
+
+.artist-track-group {
+  margin: 12pt 0;
+  list-style-type: none;
+}
+
+.artist {
+  color: #666;
+  font-weight: bold;
+}
+
+.track-item {
+  list-style-type: none;
+}
+
+.track-item .icon-play {
+  visibility: hidden;
+}
+
+.track-item.now-playing .icon-play {
+  visibility: visible;
+}
+
+.track-duration { 
+  font-size: 10pt;
+  margin-left: 12pt;
+}
+
+.favorite-button .icon-heart-empty {
+  visibility: hidden;
+}
+
+.now-playing .favorite-button .icon-heart-empty,
+.favorite-button:hover .icon-heart-empty {
+  visibility: visible;
+}
+

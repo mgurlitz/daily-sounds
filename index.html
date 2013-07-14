@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+  <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/3.1.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="main.css" rel="stylesheet">
+  <meta http-equiv="Pragma" content="no-cache">
+</head>
+<body>
+  <div id="app" class="container">
+    <div class="row" id="days-list"></div>
+    <div class="row" id="player"></div>
+  </div>
+
+  <script type="text/template" id="tmpl-day-view">
+    <div class="day row">
+      <span class="date-header row">
+        <% if(days_ago > 0) { %>
+          <a href="?<%= days_ago - 1 %>" class="icon-angle-left"></a>
+        <% } %>
+        <%= moment().subtract("days", days_ago).format("MMMM D") %>
+        <a href="?<%= days_ago + 1 %>" class="icon-angle-right"></a>
+      </span>
+      <% if(_.isEmpty(artists)) { %>
+        No tracks to show!
+      <% } else { %>
+        <ul>
+        <% _.each(artists, function(tracks) {
+          var artist = tracks[0].get("user");
+          %>
+          <li class="artist-track-group row">
+            <span class="artist">
+              <a href="<%= artist["permalink_url"] %>"><%= artist["username"] %></a>
+            </span>
+            <ul>
+            <% _.each(tracks, function(track, n) { %>
+              <li class="track-item row" data-artist-id="<%= artist["id"] %>" data-track-id="<%= n %>">
+                <i class="icon-play"></i>
+                <a class="favorite-button"><i class="icon-heart<%= track.get("user_favorite") ? "" : "-empty" %>"></i></a>
+                <a class="track-title" href="<%= track.get("permalink_url") %>"><%= track.get("title") %></a>
+                <span class="track-duration">
+                  <% var dur = moment().startOf("day").milliseconds(track.get("duration"));
+                     if(dur) {
+                       var format = (dur.hours() >= 1 ? "HH:" : "") + "mm:ss"; %>
+                    [<%= dur.format(format) %>]
+                  <% } %>
+                </span>
+                <span class="track-date pull-right">
+                  <% var t = moment(track.get("created_at"));
+                    if(moment().diff(t, "hours") > 10) { %>
+                    <%= moment(track.get("created_at")).format("HH:mm A") %>
+                  <% } else { %>
+                    <%= moment(track.get("created_at")).fromNow() %>
+                  <% } %>
+                </span>
+              </li>
+            <% }); %>
+            </ul>
+          </li>
+        </ul>
+        <% }); %>
+      <% } %>
+    </div>
+  </script>
+
+  <script type="text/template" id="tmpl-sc-widget">
+    <iframe height=166 width="100%" frameborder="no" scrolling="no"
+        src="https://w.soundcloud.com/player/?url=<%= permalink_url %>?<%=
+            $.param(App.Views.SoundCloudWidget.player_options) %>"></iframe>
+  </script>
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.0.0/backbone-min.js"></script>
+  <script src="//connect.soundcloud.com/sdk.js"></script>
+  <script src="//w.soundcloud.com/player/api.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.1.0/moment.min.js"></script>
+  <script>var App = {Models: {}, Views: {}};</script>
+  <script src="app/views/soundcloud_widget.js"></script>
+  <script src="app/models/soundcloud/base.js"></script>
+  <script src="app/models/soundcloud/track.js"></script>
+  <script src="app/models/soundcloud/user.js"></script>
+  <script src="app/views/day_view.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>
+
