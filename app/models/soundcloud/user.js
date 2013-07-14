@@ -31,9 +31,8 @@ App.Models.SoundCloud.User = App.Models.SoundCloud.Base.extend({
     var that = this;
     (function recur(url) {
       that.my_activities(url, {type: "track"}, function(next_href, data) {
-        var newest_track = _.first(data);
         var oldest_track = _.last(data);
-        if(!moment(newest_track.get("created_at")).isAfter(day_end)) {
+        if(!moment(oldest_track.get("created_at")).isAfter(day_end)) {
           tracks = tracks.concat(_.filter(data, function(i) {
             var t = moment(i.get("created_at"));
             return t.isAfter(day_begin) && t.isBefore(day_end);
