@@ -1,4 +1,18 @@
 (function(App) {
+
+function returns_tracks(url_component) {
+  return function(options, next) {
+    var url = this.url() + url_component;
+    var that = this;
+    SC.get(url, options, function(result) {
+      next( _.map(result, function(i) {
+        return new App.Models.SoundCloud.Track(i, { parse: true }).
+          set("artist", that);
+      }) );
+    });
+  };
+}
+
 App.Models.SoundCloud.User = App.Models.SoundCloud.Base.extend({
 
   url: function() {
@@ -14,6 +28,8 @@ App.Models.SoundCloud.User = App.Models.SoundCloud.Base.extend({
       "public_favorites_count",
       "avatar_url");
   },
+
+  tracks: returns_tracks("/tracks"),
 
   my_activities: function(url, options, next) {
     var that = this;

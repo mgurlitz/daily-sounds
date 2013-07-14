@@ -20,58 +20,42 @@
         data is sent outside of your browser.</p>
       <a id="connect-btn" href="#"><img src="http://connect.soundcloud.com/2/btn-connect-sc-m.png"></a>
     </div>
-    <div class="row" id="days-list"></div>
+    <div class="row" id="artist"></div>
     <div class="row" id="push-player-down"></div>
   </div>
 
-  <script type="text/template" id="tmpl-day-view">
-    <div class="day row">
-      <span class="date-header row">
-        <% if(days_ago > 0) { %>
-          <a href="?<%= days_ago - 1 %>" class="icon-angle-left"></a>
-        <% } %>
-        <%= moment().subtract("days", days_ago).format("MMMM D") %>
-        <% if(days_ago < App.max_days_ago) { %>
-          <a href="?<%= days_ago + 1 %>" class="icon-angle-right"></a>
-        <% } %>
+  <script type="text/template" id="tmpl-artist-view">
+    <div class="artist-track-group row">
+      <span class="artist">
+        <a href="index.html"><i class="icon-mail-reply"></i></a>
+        <a href="<%= artist.get("permalink_url") %>"><%= artist.get("username") %></a>
       </span>
-      <% if(_.isEmpty(artists)) { %>
+      <% if(_.isEmpty(tracks)) { %>
         No tracks to show!
       <% } else { %>
         <ul>
-        <% _.each(artists, function(tracks) {
-          var artist = tracks[0].get("user");
-          %>
-          <li class="artist-track-group row">
-            <span class="artist">
-              <a href="artist.html?<%= artist["permalink"] %>"><%= artist["username"] %></a>
+        <% _.each(tracks, function(track, n) { %>
+          <li class="track-item row" data-artist-id="<%= artist.get("id") %>" data-track-id="<%= n %>">
+            <i class="icon-play"></i>
+            <a class="favorite-button" href="#">
+              <i class="icon-heart<%= track.get("user_favorite") ? "" : "-empty" %>"></i>
+            </a>
+            <a class="track-title" href="<%= track.get("permalink_url") %>"><%= track.get("title") %></a>
+            <span class="track-duration">
+              <% var dur = moment().startOf("day").milliseconds(track.get("duration"));
+                 if(dur) {
+                   var format = (dur.hours() >= 1 ? "HH:" : "") + "mm:ss"; %>
+                [<%= dur.format(format) %>]
+              <% } %>
             </span>
-            <ul>
-            <% _.each(tracks, function(track, n) { %>
-              <li class="track-item row" data-artist-id="<%= artist["id"] %>" data-track-id="<%= n %>">
-                <i class="icon-play"></i>
-                <a class="favorite-button" href="#">
-                  <i class="icon-heart<%= track.get("user_favorite") ? "" : "-empty" %>"></i>
-                </a>
-                <a class="track-title" href="<%= track.get("permalink_url") %>"><%= track.get("title") %></a>
-                <span class="track-duration">
-                  <% var dur = moment().startOf("day").milliseconds(track.get("duration"));
-                     if(dur) {
-                       var format = (dur.hours() >= 1 ? "HH:" : "") + "mm:ss"; %>
-                    [<%= dur.format(format) %>]
-                  <% } %>
-                </span>
-                <span class="track-date pull-right">
-                  <% var t = moment(track.get("created_at"));
-                    if(moment().diff(t, "hours") > 10) { %>
-                    <%= moment(track.get("created_at")).format("HH:mm A") %>
-                  <% } else { %>
-                    <%= moment(track.get("created_at")).fromNow() %>
-                  <% } %>
-                </span>
-              </li>
-            <% }); %>
-            </ul>
+            <span class="track-date pull-right">
+              <% var t = moment(track.get("created_at"));
+                if(moment().diff(t, "hours") > 10) { %>
+                <%= moment(track.get("created_at")).format("MMMM D, YYYY") %>
+              <% } else { %>
+                <%= moment(track.get("created_at")).fromNow() %>
+              <% } %>
+            </span>
           </li>
         <% }); %>
         </ul>
@@ -96,8 +80,8 @@
   <script src="app/models/soundcloud/base.js"></script>
   <script src="app/models/soundcloud/track.js"></script>
   <script src="app/models/soundcloud/user.js"></script>
-  <script src="app/views/day_view.js"></script>
-  <script src="main.js"></script>
+  <script src="app/views/artist_view.js"></script>
+  <script src="artist.js"></script>
 
 </body>
 </html>
