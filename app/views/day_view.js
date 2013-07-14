@@ -38,6 +38,7 @@ App.Views.DayView = Backbone.View.extend({
 
     App.Views.SoundCloudWidget.play(the_track);
     App.Views.SoundCloudWidget.after_this_track(function() {
+      el.addClass("already-played");
       var next_track = $(".track-item").eq(track_id + 1);
       if(next_track)
         $(".track-title", next_track).trigger("click");

@@ -55,3 +55,10 @@ a:hover {
   visibility: visible;
 }
 
+.track-item.already-played,
+.track-item.already-played a:link,
+.track-item.already-played a:visited
+{
+  color: #ccc;
+}
+
