@@ -22,9 +22,11 @@ function soundcloud_init(next) {
     SC.accessToken(sc_token);
     next();
   } else {
-    SC.connect(function() {
-      document.cookie = "sc_token=" + SC.accessToken();
-      next();
+    $("#connect-btn").on("click", function() {
+      SC.connect(function() {
+        document.cookie = "sc_token=" + SC.accessToken();
+        next();
+      });
     });
   }
 }
