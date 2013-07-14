@@ -11,7 +11,9 @@ a:hover {
   margin-top: 32pt;
 }
 
-.date-header, .date-header a:link, .date-header a:visited { 
+.date-header,
+.date-header a:link,
+.date-header a:visited { 
   color: #ccc;
   font-size: 14pt;
   font-weight: bold;
