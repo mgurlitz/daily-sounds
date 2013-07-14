@@ -44,7 +44,9 @@ soundcloud_init(function() {
       days_ago = App.max_days_ago;
 
     App.current_user.my_activities_on(days_ago, function(tracks) {
-      var tracks_by_author = _.groupBy(tracks, function(i) { return i.get("user")["id"] });
+      var tracks_by_author = _.groupBy(
+        _.filter(tracks, function(i) { return i.has("user") }),
+        function(i) { return i.get("user")["id"] });
       var widget = new App.Views.DayView({
         model: new Backbone.Model({
           "artists": tracks_by_author,
