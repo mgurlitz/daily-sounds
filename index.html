@@ -50,7 +50,9 @@
             <% _.each(tracks, function(track, n) { %>
               <li class="track-item row" data-artist-id="<%= artist["id"] %>" data-track-id="<%= n %>">
                 <i class="icon-play"></i>
-                <a class="favorite-button"><i class="icon-heart<%= track.get("user_favorite") ? "" : "-empty" %>"></i></a>
+                <a class="favorite-button" href="#">
+                  <i class="icon-heart<%= track.get("user_favorite") ? "" : "-empty" %>"></i>
+                </a>
                 <a class="track-title" href="<%= track.get("permalink_url") %>"><%= track.get("title") %></a>
                 <span class="track-duration">
                   <% var dur = moment().startOf("day").milliseconds(track.get("duration"));

@@ -55,7 +55,7 @@ a:hover {
 }
 
 .now-playing .favorite-button .icon-heart-empty,
-.favorite-button:hover .icon-heart-empty {
+.track-item:hover .favorite-button .icon-heart-empty {
   visibility: visible;
 }
 
