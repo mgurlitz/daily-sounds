@@ -19,6 +19,10 @@ a:hover {
   font-weight: bold;
 }
 
+.date-header a:hover {
+  color: #0645ad;
+}
+
 .artist-track-group {
   margin: 12pt 0;
   list-style-type: none;
