@@ -23,6 +23,8 @@ function soundcloud_init(next) {
 }
 
 soundcloud_init(function() {
+  $("#connect-message").hide();
+
   App.current_user = new App.Models.SoundCloud.User({url: "/me"});
   App.current_user.fetch();
   App.current_user.on("sync", function() {
